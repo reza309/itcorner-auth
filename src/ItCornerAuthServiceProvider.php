@@ -26,5 +26,8 @@ class ItCornerAuthServiceProvider extends ServiceProvider
         //
         $this->loadRoutesFrom(__DIR__.'/routes/web.php');
         $this->loadViewsFrom(__DIR__.'/views/auth/', 'auth');
+        $this->publishes([
+            __DIR__.'/views/auth' => resource_path('views/auth'),
+        ]);
     }
 }
