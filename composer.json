@@ -12,6 +12,13 @@
             "ItCorner\\Auth\\": "src/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ItCorner\\Auth\\ItCornerAuthServiceProvider"
+            ]
+        }
+    },
     "authors": [
         {
             "name": "reza309",
