@@ -17,6 +17,9 @@
             "providers": [
                 "ItCorner\\Auth\\ItCornerAuthServiceProvider"
             ]
+        },
+        "aliases": {
+            "Debugbar": "ItCorner\\Auth\\Facade"
         }
     },
     "authors": [
