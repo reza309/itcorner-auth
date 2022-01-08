@@ -1,0 +1,32 @@
+{
+    "name": "it-corner/auth",
+    "description": "this is a laravel authentication packge. developed by shaheen reza at IT CORNER. First release on january 2022",
+    "type": "library",
+    "require": {
+        "php": "^8.0",
+        "illuminate/support": "8.x-dev"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ItCorner\\Auth\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ItCorner\\Auth\\ItCornerAuthServiceProvider"
+            ]
+        },
+        "aliases": {
+            "Debugbar": "ItCorner\\Auth\\Facade"
+        }
+    },
+    "authors": [
+        {
+            "name": "reza309",
+            "email": "reza112sh@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
