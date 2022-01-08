@@ -3,7 +3,7 @@
     "description": "this is a laravel authentication packge. developed by shaheen reza at IT CORNER. First release on january 2022",
     "type": "library",
     "require": {
-        "php": "^8.0"
+        "php": "^5.0"
     },
     "license": "MIT",
     "autoload": {
