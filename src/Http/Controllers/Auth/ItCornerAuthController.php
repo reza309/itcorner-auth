@@ -74,6 +74,10 @@ class ItCornerAuthController extends Controller
     {
         return view('auth::register');
     }
+    public function dashboard()
+    {
+        return view('auth::dashboard');
+    }
     // User Registration with ajax
     public function register(Request $request)
     {
