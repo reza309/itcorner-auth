@@ -13,6 +13,9 @@
         "laravel": {
             "providers": [
                 "ItCorner\\Auth\\ItCornerAuthServiceProvider"
+            ],
+            "middleware":[
+                "ItCorner\\Auth\\ItCornerAthenticate"
             ]
         },
         "aliases": {

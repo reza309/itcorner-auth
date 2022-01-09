@@ -1,23 +1,57 @@
-<form action="{{ url('login') }}" id="loginForm" method="POST">
-  @csrf
-  <div class="intro-x mt-8">
-      <input type="text" name="email" class="intro-x login__input form-control py-3 px-4 border-gray-300 block"
-          placeholder="Email">
-      <input type="password" name="password" class="intro-x login__input form-control py-3 px-4 border-gray-300 block mt-4"
-          placeholder="Password">
-  </div>
-  <div class="intro-x flex text-gray-700 dark:text-gray-600 text-xs sm:text-sm mt-4">
-      <div class="flex items-center mr-auto">
-          <input id="remember-me" type="checkbox" name="remember_me" class="form-check-input border mr-2">
-          <label class="cursor-pointer select-none" for="remember-me">Remember me</label>
-      </div>
-      <a href="">Forgot Password?</a>
-  </div>
-  <div class="intro-x mt-5 xl:mt-8 text-center xl:text-left">
-      <button class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top" id="loginBtn"
-          data-btnid="loginBtn" data-form="loginForm" data-callback="loginCallback" data-validator="true"
-          data-loading='<i class="fas fa-spinner"></i>' onclick="_run(this)">Login</button>
-      <a href="{{ url('register') }}"
-          class="btn btn-outline-secondary py-3 px-4 w-full xl:w-32 mt-3 xl:mt-0 align-top">Sign up</a>
-  </div>
-</form>
+@extends('layouts.app')
+@section('title')
+{{'User Login'}}
+@endsection
+@section('content')
+<section class="p-3 bg-light pt-5 pb-5">
+    <div class="row">
+        <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <div class="text-center">
+                    <h3>Login</h3>
+                    <hr>
+                </div>
+                <form action="" method="post" id="loginForm">
+                @csrf
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Your Email</label>
+                        <input type="email" name="email" id="eamil" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Your Password</label>
+                        <input type="password" name="password" id="password" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Remember Me &quest;
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <a href="{{route('register')}}">Registration Now &quest;</a>
+                        </div>
+                        <div class="col-lg-6">
+                            <button type="submit" class="btn btn-primary w-100" id="loginBtn" data-btnid="loginBtn" data-form="loginForm" data-callback="loginCallback" data-validator="true" data-loading='<i class="fas fa-spinner"></i>' onclick="_run(this)">Login</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        <div class="col-lg-3"></div>
+    </div>
+</section>
+<script>
+        function loginCallback(data) {
+            _enableBtn('loginBtn');
+            if (data.success) {
+                toast('success', data.message);
+                document.getElementById('loginForm').reset();
+                window.location.href = data.redirect;
+            } else {
+                toast('error', data.message);
+            }
+        }
+    </script>
+@endsection

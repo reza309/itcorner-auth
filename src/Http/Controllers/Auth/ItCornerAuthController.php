@@ -10,18 +10,71 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Redirect;
+// use Illuminate\Support\Facades\Session;
 use Hash;
+use Session;
 class ItCornerAuthController extends Controller
 {
-    public function login(Request $request)
+    // login view function
+    public function loginView(Request $request)
     {
         return view('auth::login');
     }
+    // login function with ajax
+    public function login(Request $request)
+    {
+        // dd($request->all());
+
+        $rules = [
+            'email' => 'required|email|max:50',
+            'password' => 'required|min:6|max:50',
+        ];
+        $validation = Validator::make($request->all(), $rules);
+        if ($validation->fails()) {
+            return [
+                'success' => false,
+                'message' => 'Not Ready To Login, Please check validation errors.',
+                'errors' => $validation->errors(),
+            ];
+        }
+
+        $user = User::where('email', $request->input('email'))->first();
+        if ($user) {
+            if (Hash::check($request->input('password'), $user->password)) {
+                $request->session()->put('loginId',$user->id);
+                return [
+                    'success' => true,
+                    'message' => 'You have successfully logged in!',
+                    'redirect' => 'dashboard'
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'message' => 'Password did not match'
+                ];
+            }
+        } else {
+            return [
+                'success' => false,
+                'message' => 'Email is invalid',
+            ];
+        }
+    }
+    // logout function
+    public function logout()
+    {
+        if(Session::has('loginId'))
+        {
+            Session::pull('loginId');
+            return redirect('login');
+        }
+    }
+    // user registration view
     public function registerView()
     {
         return view('auth::register');
     }
-    // User Registration
+    // User Registration with ajax
     public function register(Request $request)
     {
         $rules = [
