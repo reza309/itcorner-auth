@@ -10,5 +10,6 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('register',[ItCornerAuthController::class,"registerView"])->name('register')->middleware('isLoggedIn');
     Route::post('register',[ItCornerAuthController::class,'register'])->name('register');
     Route::get('logout',[ItCornerAuthController::class,'logout'])->name('logout');
+    Route::get('dashboard',[ItCornerAuthController::class,'dashboard'])->name('dashboard')->middleWare('isAuthenticate');
 });
 
