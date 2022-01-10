@@ -36,7 +36,7 @@ class ItCornerAuthServiceProvider extends ServiceProvider
             __DIR__.'/routes'=>"routes",
             __DIR__.'/public' => public_path(),
             __DIR__.'/migrations' => database_path('migrations/'),
-            __DIR__.'/Http/kernel.php' => app_path('Http/kernel.php'),
+            // __DIR__.'/Http/kernel.php' => app_path('Http/kernel.php'),
         ],'it-corner-auth-publish');
 
 
