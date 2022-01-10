@@ -3,7 +3,7 @@
 {{'User Login'}}
 @endsection
 @section('content')
-<section class="p-3 bg-light pt-5 pb-5">
+<section class="p-3 bg-light pt-5 pb-5 mt-5">
     <div class="row">
         <div class="col-lg-3"></div>
             <div class="col-lg-6">

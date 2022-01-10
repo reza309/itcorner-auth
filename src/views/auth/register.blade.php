@@ -4,7 +4,7 @@
 @endsection
 
 @section('content')
-<section class="p-lg-3 bg-light">
+<section class="p-lg-3 bg-light mt-5">
   <div class="row justify-content-center">
     <div class="col-lg-3"></div>
       <div class="col-md-10 col-lg-6 col-xl-5">
