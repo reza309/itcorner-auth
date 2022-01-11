@@ -20,6 +20,7 @@ class CreateUserProfilesTable extends Migration
             $table->string('line_2');
             $table->string('state');
             $table->string('city');
+            $table->string('phone');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
