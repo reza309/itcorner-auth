@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{asset('/css/itcorner-auth-style.css')}}">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">It Corner</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +41,7 @@
            My Account
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="{{route('profile')}}">Profile</a></li>
             <li><a class="dropdown-item" href="#">Dashboard</a></li>
             <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
           </ul>
@@ -55,11 +55,13 @@
         @yield('content')
     </div>
 </body>
-<script src="{{asset('js/app.js')}}"></script>
+
 <script src="{{asset('js/jquery-3.6.0.min.js')}}"></script>
 <script src="{{asset('js/bootstrap.min.js')}}"></script>
+<!-- <script src="{{asset('js/app.js')}}"></script> -->
 <script src="{{asset('js/all.min.js')}}"></script>
 <script src="{{asset('js/common-ajax.js')}}"></script>
 <script src="{{asset('js/toastify-js.js')}}"></script>
 <script src="{{asset('js/custom.js')}}"></script>
+<script src="{{asset('js/profile.js')}}"></script>
 </html>

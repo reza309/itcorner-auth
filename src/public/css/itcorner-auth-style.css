@@ -1,3 +1,8 @@
 .error-msg{
     color: red;
 }
+.dashboard-title {
+	font-size: 3rem;
+	font-family: cambria;
+	font-weight: bold;
+}

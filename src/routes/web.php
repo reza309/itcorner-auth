@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\ItCornerAuthController as AuthItCornerAuthController;
+// use App\Http\Controllers\Auth\ItCornerProfileController as ItCornerProfileController;
 use Illuminate\Support\Facades\Route;
 use ItCorner\Auth\Http\Controllers\Auth\ItCornerAuthController;
+use ItCorner\Auth\Http\Controllers\Auth\ItCornerProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,12 +20,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::group(['middleware' => ['web']], function () {
-    Route::get('login',[ItCornerAuthController::class,"loginView"])->name('login')->middleware('isLoggedIn');
-    Route::post('login',[ItCornerAuthController::class,"login"])->name('login');
-    Route::get('register',[ItCornerAuthController::class,"registerView"])->name('register')->middleware('isLoggedIn');
-    Route::post('register',[ItCornerAuthController::class,'register'])->name('register');
-    Route::get('logout',[ItCornerAuthController::class,'logout'])->name('logout');
-    Route::get('dashboard',[ItCornerAuthController::class,'dashboard'])->name('dashboard')->middleWare('isAuthenticate');
+    Route::get('login/',[ItCornerAuthController::class,"loginView"])->name('login')->middleware('isLoggedIn');
+    Route::post('login/',[ItCornerAuthController::class,"login"])->name('login');
+    Route::get('register/',[ItCornerAuthController::class,"registerView"])->name('register')->middleware('isLoggedIn');
+    Route::post('register/',[ItCornerAuthController::class,'register'])->name('register');
+    Route::get('logout/',[ItCornerAuthController::class,'logout'])->name('logout');
+    Route::get('dashboard/',[ItCornerAuthController::class,'dashboard'])->name('dashboard')->middleWare('isAuthenticate');
+    Route::get('profile/',[ItCornerProfileController::class,'profileView'])->name('profile')->middleWare('isAuthenticate');
+    Route::post('profile/',[ItCornerProfileController::class,'profileStore'])->name('profile')->middleWare('isAuthenticate');
 });
 
 Route::middleware(['isAuthenticate'])->group(function () {
