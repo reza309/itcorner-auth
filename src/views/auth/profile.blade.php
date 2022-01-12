@@ -108,7 +108,7 @@
                                         <div class="text-success" id="success"></div>
                                     </div>
                                     <div class="col-lg-2">
-                                        <input type="submit" value="Save Profile" class="btn btn-primary w-100">
+                                        <input type="submit" value="Save Profile" class="btn btn-primary w-100 me-3">
                                     </div>
                                 </div>
                             </div>
