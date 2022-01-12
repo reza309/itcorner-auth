@@ -122,6 +122,10 @@ $(document).ready(function(){
                 if(data==='success')
                 {
                     $("input").removeClass("is-valid");
+                    $("#success").html("<span class='alert alert-success p-3 text-center'>Profile Updated Successfully! </span>");
+                    setTimeout(() => {
+                        $("#success").children("span").remove();
+                    }, 3000);
                 }
                 console.log(data);
             },

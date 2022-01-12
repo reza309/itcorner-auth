@@ -104,7 +104,9 @@
                             </table>
                             <div class="pt-lg-3">
                                 <div class="row">
-                                    <div class="col-lg-10"></div>
+                                    <div class="col-lg-10">
+                                        <div class="text-success" id="success"></div>
+                                    </div>
                                     <div class="col-lg-2">
                                         <input type="submit" value="Save Profile" class="btn btn-primary">
                                     </div>
