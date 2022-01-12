@@ -38,12 +38,12 @@
         @endif
         @if(Session::has('loginId'))
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="nav-link dropdown-toggle" href="{{route('dashboard')}}" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
            My Account
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
             <li><a class="dropdown-item" href="{{route('profile')}}">Profile</a></li>
-            <li><a class="dropdown-item" href="#">Dashboard</a></li>
+            <li><a class="dropdown-item" href="{{route('dashboard')}}">Dashboard</a></li>
             <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
           </ul>
         </li>

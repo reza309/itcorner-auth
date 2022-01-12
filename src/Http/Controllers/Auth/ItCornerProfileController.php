@@ -28,7 +28,6 @@ class ItCornerProfileController extends Controller
             'first_name', 'last_name', 'email','images',
             'phone','line_1','line_2','state','city'
         ]);
-        // return Response::json(array('users',$user));
         return view('auth.profile',["user"=>$user]);
     }
     public function profileStore(Request $request)

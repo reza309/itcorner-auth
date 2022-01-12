@@ -74,9 +74,15 @@ class ItCornerAuthController extends Controller
     {
         return view('auth::register');
     }
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        return view('auth::dashboard');
+        $user = User::leftJoin('user_profiles','users.id','=','user_profiles.user_id')
+        ->where('users.id', $request->session()->get('loginId'))
+        ->get([
+            'first_name', 'last_name', 'email','images',
+            'phone','line_1','line_2','state','city'
+        ]);
+        return view('auth.dashboard',["user"=>$user]);
     }
     // User Registration with ajax
     public function register(Request $request)
