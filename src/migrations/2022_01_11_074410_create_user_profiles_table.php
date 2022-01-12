@@ -17,6 +17,7 @@ class CreateUserProfilesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('line_1');
+            $table->string('images');
             $table->string('line_2');
             $table->string('state');
             $table->string('city');

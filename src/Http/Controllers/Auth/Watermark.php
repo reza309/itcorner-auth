@@ -2,6 +2,7 @@
 /**
  * all of watermark functions is here
  */
+namespace ItCorner\Auth\Http\Controllers\Auth;
 trait Watermark
 {
     protected $imageHeight = 0;
@@ -134,9 +135,7 @@ trait Watermark
         $font = dirname(__FILE__) . '/../fonts/cambriai.ttf';
         $this->font = $font;
         $test = imagettftext($image_color, $this->setFontSize(),$this->watermarkStyle(), $this->positionX(),$this->positionY(), $alpha_color, $font, $watermark);
-        echo("<pre>");
-        print_r($test);
-        echo("</pre>");
+        
         if ($save<>'') {
         imagejpeg ($image_color, $save, 100); 
         } else {

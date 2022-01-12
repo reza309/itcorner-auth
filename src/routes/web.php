@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\ItCornerAuthController as AuthItCornerAuthControll
 use Illuminate\Support\Facades\Route;
 use ItCorner\Auth\Http\Controllers\Auth\ItCornerAuthController;
 use ItCorner\Auth\Http\Controllers\Auth\ItCornerProfileController;
+use ItCorner\Auth\Http\Controllers\Auth\ItCornerFileUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('dashboard/',[ItCornerAuthController::class,'dashboard'])->name('dashboard')->middleWare('isAuthenticate');
     Route::get('profile/',[ItCornerProfileController::class,'profileView'])->name('profile')->middleWare('isAuthenticate');
     Route::post('profile/',[ItCornerProfileController::class,'profileStore'])->name('profile')->middleWare('isAuthenticate');
+    Route::post('profileUpload/',[ItCornerFileUploadController::class,'userFileUpload'])->name('profileUpload')->middleWare('isAuthenticate');
 });
 
 Route::middleware(['isAuthenticate'])->group(function () {

@@ -1,6 +1,7 @@
 <?php
+namespace ItCorner\Auth\Http\Controllers\Auth;
 require_once "Watermark.php";
-class Upload
+class ItUpload
 {
     protected $err_message = [];
     protected $success_message = [];
@@ -88,7 +89,7 @@ class Upload
             }
             else
             {
-                $target_dir = $this->config_data['target_dir'];
+                $target_dir = public_path($this->config_data['target_dir']);
                 $base_name = $this->config_data['file_name']."-".time().$i.".";
                 $target_file = $target_dir . $base_name.pathinfo($this->take_name($i),PATHINFO_EXTENSION);
                 $this->imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -97,7 +98,7 @@ class Upload
                     if (move_uploaded_file($this->take_tmp_name($i), $target_file)) 
                     {
                         array_push($this->success_message, "The file ". htmlspecialchars($target_file). " has been uploaded.");
-                        array_push($this->target_file,$target_file);
+                        array_push($this->target_file,$this->config_data['target_dir'].$base_name.pathinfo($this->take_name($i),PATHINFO_EXTENSION));
                         // create a watermark to image
                         if(in_array($this->imageFileType,$this->allowed_file_type))
                         {
@@ -169,7 +170,7 @@ class Upload
             // check file selected or not
             if(!empty($this->take_name($i)))
             {
-                $target_dir = $this->config_data['target_dir'];
+                $target_dir = public_path($this->config_data['target_dir']);
                 $base_name = $this->config_data['file_name']."-".time().$i.".";
                 $target_file = $target_dir . $base_name.pathinfo($this->take_name($i),PATHINFO_EXTENSION);
                 $uploadOk = 1;

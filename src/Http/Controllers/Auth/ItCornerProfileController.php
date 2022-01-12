@@ -25,7 +25,7 @@ class ItCornerProfileController extends Controller
         $user = User::leftJoin('user_profiles','users.id','=','user_profiles.user_id')
         ->where('users.id', $request->session()->get('loginId'))
         ->get([
-            'first_name', 'last_name', 'email',
+            'first_name', 'last_name', 'email','images',
             'phone','line_1','line_2','state','city'
         ]);
         // return Response::json(array('users',$user));

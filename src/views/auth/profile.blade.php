@@ -23,12 +23,17 @@
             <div class="row">
                 <div class="col-lg-3">
                     <ul class="list-group-flush">
-                        <li class="list-group-item list-group-item-action">
-                            <img src="{{asset('auth-image/avater.png')}}" alt="" srcset="" class="img img-fluid rounded rounded-circle border" style="width:50px height:50px">
-                            <div class="mb-3">
-                                <label for="formFile" class="form-label">Default file input example</label>
-                                <input class="form-control" type="file" id="formFile">
-                            </div>
+                        <li class="list-group-item">
+                            <form action="{{route('profileUpload')}}" method="POST" enctype="multipart/form-data" id="profile-upload-form">
+                                @csrf
+                                <img src="{{($user->isEmpty())?asset('auth-image/avater.png'):$user[0]->images}}" alt="" srcset="" class="img img-fluid rounded rounded-circle border" style="width:50px height:50px">
+                                <div class="d-flex">
+                                    <div class="mb-3">
+                                        <label for="formFile" class="form-label">Upload Your Profile Photo</label>
+                                        <input class="form-control" type="file" id="formFile" name="image">
+                                    </div>
+                                </div>
+                            </form>
                         </li>
                         <li class="list-group-item list-group-item-action">
                             <a href="#" class="text-decoration-none d-block w-100">Reset Password</a>
