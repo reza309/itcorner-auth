@@ -26,7 +26,7 @@
                         <li class="list-group-item">
                             <form action="{{route('profileUpload')}}" method="POST" enctype="multipart/form-data" id="profile-upload-form">
                                 @csrf
-                                <img src="{{$user->isEmpty()?asset('auth-image/avater.png'):$user[0]->images}}" alt="" srcset="" class="img img-fluid rounded rounded-circle border" style="width:50px height:50px">
+                                <img src="{{$user[0]->images->isEmpty()?asset('auth-image/avater.png'):$user[0]->images}}" alt="" srcset="" class="img img-fluid rounded rounded-circle border" style="width:50px height:50px">
                                 <div class="d-flex">
                                     <div class="mb-3">
                                         <label for="formFile" class="form-label">Upload Your Profile Photo</label>
