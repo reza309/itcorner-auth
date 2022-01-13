@@ -1,0 +1,9 @@
+
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.googlemail.com
+MAIL_PORT=465
+MAIL_USERNAME=reza112sh@gmail.com
+MAIL_PASSWORD=hrkjbvlpcgbjdhkh
+MAIL_ENCRYPTION=ssl
+MAIL_FROM_ADDRESS=reza112sh@gmail.com
+MAIL_FROM_NAME="${APP_NAME}"
