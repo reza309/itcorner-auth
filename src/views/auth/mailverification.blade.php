@@ -8,6 +8,7 @@
 </head>
 <body>
     <h2>{{$details['title']}}</h2>
+    <a href="{{$details['link']}}">Click Me</a>
     <p>{{$details['body']}}</p>
     <p>Thank You</p>
 </body>

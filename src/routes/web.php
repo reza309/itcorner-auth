@@ -33,9 +33,11 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('profile/',[ItCornerProfileController::class,'profileView'])->name('profile')->middleWare('isAuthenticate');
     Route::post('profile/',[ItCornerProfileController::class,'profileStore'])->name('profile')->middleWare('isAuthenticate');
     Route::post('profileUpload/',[ItCornerFileUploadController::class,'userFileUpload'])->name('profileUpload')->middleWare('isAuthenticate');
+    // mail verification
     Route::get('mail-verify/',[MailController::class,'mailVerificationView'])->name('mail-verify');
     Route::post('mail-verify/',[MailController::class,'mailVerification'])->name('mail-verify');
     Route::get('mail-verify/send',[MailController::class,'mailSendSuccess'])->name('mail-send');
+    Route::get('mail-verfiy/confirm/{mailId}',[MailController::class,'verificationConfirm'])->name('mail-confirm');
 });
 
 Route::middleware(['isAuthenticate'])->group(function () {

@@ -8,9 +8,11 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
-use Session;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Routing\UrlGenerator ;
 
+use Hash;
+use Session;
 class MailController extends Controller
 {
     protected $verifyEmail = "reza06br@gmail.com";
@@ -27,15 +29,38 @@ class MailController extends Controller
     // its sending the mail with body title
     public function sendVerificationMail()
     {
+        $root_url = url();
+        Session::forget('mailId');
+        Session::forget('verifyEmail');
+        Session::put('mailId', Hash::make(time()));
+        Session::put('verifyEmail',$this->verifyEmail);
         $details =[
             'title'=>"Mail from IT-CORNER authentication",
-            "body" => "This is a verification mail. Please click the button or linke to user verification. If you not write user please ignore this."
+            "body" => "This is a verification mail. Please click the button or linke to user verification. If you not write user please ignore this.",
+            "link" => url("/mail-verfiy/confirm/".Session::get('mailId'))
         ];
-        Session::forget('mailId');
-        // $token = $this->getTokenFromRequest($request);
         Mail::to($this->verifyEmail)->send(new VerificationMail($details));
-        Session::put('mailId',time());
         return true;
+    }
+    // verfication confirm
+    public function verificationConfirm($id)
+    {
+        if(Session::get('mailId') == $id)
+        {
+            if(User::where('email',Session::get('verifyEmail')->update(['email_verified_at'=>time()])))
+            {
+                Session::forget('verifyEmail');
+                return "verification success";
+            }
+            else{
+                return "verification failed";
+            }
+            
+        }
+        else{
+            return "verification failed";
+        }
+        
     }
     public function mailSendSuccess()
     {
