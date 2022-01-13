@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use ItCorner\Auth\Http\Controllers\Auth\ItCornerAuthController;
 use ItCorner\Auth\Http\Controllers\Auth\ItCornerProfileController;
 use ItCorner\Auth\Http\Controllers\Auth\ItCornerFileUploadController;
+use ItCorner\Auth\Http\Controllers\Auth\MailController;
+use ItCorner\Auth\Routes\ItAuth;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +22,7 @@ use ItCorner\Auth\Http\Controllers\Auth\ItCornerFileUploadController;
 Route::get('/', function () {
     return view('welcome');
 });
+// itAuth::route($data=['verify'=>true]);
 Route::group(['middleware' => ['web']], function () {
     Route::get('login/',[ItCornerAuthController::class,"loginView"])->name('login')->middleware('isLoggedIn');
     Route::post('login/',[ItCornerAuthController::class,"login"])->name('login');
@@ -30,6 +33,9 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('profile/',[ItCornerProfileController::class,'profileView'])->name('profile')->middleWare('isAuthenticate');
     Route::post('profile/',[ItCornerProfileController::class,'profileStore'])->name('profile')->middleWare('isAuthenticate');
     Route::post('profileUpload/',[ItCornerFileUploadController::class,'userFileUpload'])->name('profileUpload')->middleWare('isAuthenticate');
+    Route::get('mail-verify/',[MailController::class,'mailVerificationView'])->name('mail-verify');
+    Route::post('mail-verify/',[MailController::class,'mailVerification'])->name('mail-verify');
+    Route::get('mail-verify/send',[MailController::class,'mailSendSuccess'])->name('mail-send');
 });
 
 Route::middleware(['isAuthenticate'])->group(function () {

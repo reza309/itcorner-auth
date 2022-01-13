@@ -10,11 +10,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Redirect;
-// use Illuminate\Support\Facades\Session;
+use ItCorner\Auth\Routes\ItAuth;
+use Illuminate\Support\Facades\Route;
 use Hash;
 use Session;
+
 class ItCornerAuthController extends Controller
 {
+    protected $auth = true;
     // login view function
     public function loginView(Request $request)
     {
@@ -23,8 +26,6 @@ class ItCornerAuthController extends Controller
     // login function with ajax
     public function login(Request $request)
     {
-        // dd($request->all());
-
         $rules = [
             'email' => 'required|email|max:50',
             'password' => 'required|min:6|max:50',
@@ -39,25 +40,37 @@ class ItCornerAuthController extends Controller
         }
 
         $user = User::where('email', $request->input('email'))->first();
-        if ($user) {
-            if (Hash::check($request->input('password'), $user->password)) {
-                $request->session()->put('loginId',$user->id);
-                return [
-                    'success' => true,
-                    'message' => 'You have successfully logged in!',
-                    'redirect' => 'dashboard'
-                ];
+        $itauth = new ItAuth();
+        $itauth->route($this->auth);
+        if($user->email_verified_at == null && $itauth->routeCheck()==true)
+        {
+            return [
+                'success' => true,
+                'message' => 'You have need to verify your email!',
+                'redirect' => 'mail-verify'
+            ];
+        }
+        else{
+            if ($user) {
+                if (Hash::check($request->input('password'), $user->password)) {
+                    $request->session()->put('loginId',$user->id);
+                    return [
+                        'success' => true,
+                        'message' => 'You have successfully logged in!',
+                        'redirect' => 'dashboard'
+                    ];
+                } else {
+                    return [
+                        'success' => false,
+                        'message' => 'Password did not match'
+                    ];
+                }
             } else {
                 return [
                     'success' => false,
-                    'message' => 'Password did not match'
+                    'message' => 'Email is invalid',
                 ];
             }
-        } else {
-            return [
-                'success' => false,
-                'message' => 'Email is invalid',
-            ];
         }
     }
     // logout function
