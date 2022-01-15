@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Routing\UrlGenerator ;
 
+use \Carbon\Carbon;
 use Hash;
 use Session;
 class MailController extends Controller
@@ -47,24 +48,39 @@ class MailController extends Controller
     {
         if(Session::get('mailId') == $id)
         {
-            if(User::where('email',Session::get('verifyEmail')->update(['email_verified_at'=>time()])))
+            $datetime = Carbon::now();
+            if(User::where('email',Session::get('verifyEmail'))->update(['email_verified_at'=>$datetime]))
             {
                 Session::forget('verifyEmail');
-                return "verification success";
+                $message = [
+                    'success'=>true,
+                    'message'=>'Thank you for helping us and we know that its you. Now, you are secured.'
+                ];
+                return view('auth.verify-success',['message'=>$message]);
             }
             else{
-                return "verification failed";
+                Session::forget('verifyEmail');
+                $message = [
+                    'success'=>false,
+                    'message'=>'Sorry! verification failed. Please try again later'
+                ];
+                return view('auth.verify-success',['message'=>$message]);
             }
             
         }
         else{
-            return "verification failed";
+            Session::forget('verifyEmail');
+            $message = [
+                'success'=>false,
+                'message'=>'Sorry! verification failed. Please try again later'
+            ];
+            return view('auth.verify-success',['message'=>$message]);
         }
         
     }
     public function mailSendSuccess()
     {
-        return view('auth.mailverification-success');
+        return view('auth.mail-send-success');
     }
     // its store the verification data
     public function mailVerification(Request $request)
@@ -80,17 +96,24 @@ class MailController extends Controller
         }
         else{
             $validationRuls = [
-                'email'=>'required|email|exists:users|max:50'
+                'email'=>'required|email|exists:users|max:50',
             ];
             $validator = Validator::make($request->all(),$validationRuls);
             if($validator->fails()) {
                 return Response::json(['failed'=>$validator->errors()]);
             }else{
                 $this->verifyEmail = $request->email;
-                if( $this->sendVerificationMail())
+                $verifiedAt = User::where('email',$this->verifyEmail)->get('email_verified_at');
+                if($verifiedAt[0]->email_verified_at == NULL)
                 {
-                    return  Redirect::route('mail-send');
+                    if( $this->sendVerificationMail())
+                    {
+                        return  Redirect::route('mail-send');
+                    }
+                }else{
+                    return redirect()->back()->with(['failed'=>'You already verified, Please Login']);
                 }
+                
             }
         }
         

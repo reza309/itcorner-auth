@@ -23,8 +23,8 @@
                     </div>
                     <div class="mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
+                            <input class="form-check-input" type="checkbox" value="" id="remember-me">
+                            <label class="form-check-label" for="remember-me">
                                 Remember Me &quest;
                             </label>
                         </div>
@@ -37,6 +37,7 @@
                             <button type="submit" class="btn btn-primary w-100" id="loginBtn" data-btnid="loginBtn" data-form="loginForm" data-callback="loginCallback" data-validator="true" data-loading='<i class="fas fa-spinner"></i>' onclick="_run(this)">Login</button>
                         </div>
                     </div>
+                    <a href="{{route('forget-password')}}">Forget Password</a>
                 </form>
             </div>
         <div class="col-lg-3"></div>

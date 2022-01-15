@@ -7,6 +7,7 @@ use ItCorner\Auth\Http\Controllers\Auth\ItCornerAuthController;
 use ItCorner\Auth\Http\Controllers\Auth\ItCornerProfileController;
 use ItCorner\Auth\Http\Controllers\Auth\ItCornerFileUploadController;
 use ItCorner\Auth\Http\Controllers\Auth\MailController;
+use ItCorner\Auth\Http\Controllers\Auth\ItCornerForgetPassword;
 use ItCorner\Auth\Routes\ItAuth;
 
 /*
@@ -38,6 +39,12 @@ Route::group(['middleware' => ['web']], function () {
     Route::post('mail-verify/',[MailController::class,'mailVerification'])->name('mail-verify');
     Route::get('mail-verify/send',[MailController::class,'mailSendSuccess'])->name('mail-send');
     Route::get('mail-verfiy/confirm/{mailId}',[MailController::class,'verificationConfirm'])->name('mail-confirm');
+
+    // forget password
+    Route::get('user/forget-password/',[ItCornerForgetPassword::class,'sendLinkView'])->name('forget-password');
+    Route::post('user/forget-password/',[ItCornerForgetPassword::class,'sendLink'])->name('forget-password');
+    Route::get('/forget-password/confirm/{forgetLink}',[ItCornerForgetPassword::class,'forgetPasswordConfirm'])->name('forget-password-confirm');
+    Route::post('/forget-password/confirm/{forgetLink}',[ItCornerForgetPassword::class,'saveNewPassword'])->name('forget-password-confirm');
 });
 
 Route::middleware(['isAuthenticate'])->group(function () {
