@@ -12,8 +12,9 @@
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
-                <form action="{{route('forget-password-confirm',request()->route('forgetLink'))}}" method="post">
+                <form action="{{route('forget-password-confirm',request()->route('forgetLink'))}}" method="post" id="set-newpassword-form">
                     @csrf
+                    <!-- <input type="hidden" name="link" value="{{request()->route('forgetLink')}}"> -->
                     <div class="mb-3">
                         <label for="password" class="form-label">New Password</label>
                         <input type="password" name="password" id="password" class="form-control">
@@ -23,7 +24,10 @@
                         <input type="password" name="password_confirmation" id="confirm-password" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <input type="submit" value="Save Password" class="btn btn-primary float-end">
+                        <!-- <input type="submit" value="Save Password" class="btn btn-primary float-end"> -->
+                        <button class="btn btn-primary float-end" type="submit" id="btn-forget-password">
+                            Save Password
+                        </button>
                         <div class="clearfix"></div>
                     </div>
                 </form>

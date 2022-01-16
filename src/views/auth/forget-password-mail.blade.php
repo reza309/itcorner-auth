@@ -12,21 +12,23 @@
         <div class="row">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
-                <form action="{{route('forget-password')}}" method="post">
+                <form action="{{route('forget-password')}}" method="post" id="forget-password-form">
                     @csrf
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" name="email" id="email" class="form-control">
                     </div>
                     <div class="mb-3">
-                        <input type="submit" value="Verif Email" class="btn btn-primary float-end">
+                        <!-- <input type="submit" value="Verif Email" class="btn btn-primary float-end"> -->
+                        <button class="btn btn-primary float-end" type="submit" id="btn-forget-mail">
+                            Send Mail
+                        </button>
                         <div class="clearfix"></div>
                     </div>
                 </form>
             </div>
             <div class="col-lg-3"></div>
         </div>
-        
     </div>
 </section>
 @endsection

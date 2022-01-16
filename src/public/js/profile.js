@@ -1,3 +1,5 @@
+// const { isArray } = require("lodash");
+
 $(document).ready(function(){
 
     // update basic user info
@@ -127,7 +129,7 @@ $(document).ready(function(){
                         $("#success").children("span").remove();
                     }, 3000);
                 }
-                console.log(data);
+                
             },
             error: function (data) {
                 console.log(data);
@@ -135,3 +137,114 @@ $(document).ready(function(){
         });
     });
 });
+/**
+ * forget password section
+ * forget password submit mail
+ */
+$(document).ready(function(){
+    $("#btn-forget-mail").click(function(e){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        e.preventDefault();
+        $("button").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'+"Mail Sending...")
+
+        var formData = $("#forget-password-form").serializeArray();
+        
+        var type = "POST";
+        var ajaxurl = 'forget-password';
+        $.ajax({
+            type: type,
+            url: ajaxurl,
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                $("button").html('Send Mail');
+                if( data.hasOwnProperty('failed')){
+                    $("input[name=email]").addClass("is-invalid");
+                    $("input[name=email]").removeClass("is-valid");
+                    if($("input[name=email]").next("span").length == 0){
+                        $("input[name=email]").after(
+                            '<span class="text-danger">'+data.failed.email[0]+'</span>'
+                        );
+                    }
+                }else{
+                    $("input[name=email]").addClass("is-valid");
+                    $("input[name=email]").removeClass("is-invalid");
+                    $("input[name=email]").attr("disabled");
+                    $("input[name=email").next().remove();
+                    if($("input[name=email]").next("span").length == 0){
+                        $("input[name=email]").after(
+                            '<span class="text-success">'+"Simply we send a mail. Please check your mail and follow the instruction"+'</span>'
+                        );
+                    }
+                }
+            }
+        });
+    });
+});
+/**
+ * forget-password section
+ * set new password
+ */
+ $(document).ready(function(){
+    $("#btn-forget-password").click(function(e){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        e.preventDefault();
+        $("button").html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>'+"Request Sending...")
+        var formData = $("#set-newpassword-form").serializeArray();
+        var type = "POST";
+        var ajaxurl = 'forget-password-confirm/';
+        $.ajax({
+            type: type,
+            url: ajaxurl,
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                $("button").html('Save Password');
+                if( data.hasOwnProperty('failed')){
+                    if($.isArray(data.failed.password))
+                    {
+                        var err_msg = data.failed.password[0];
+                    }else{
+                        var err_msg = data.failed;
+                    }
+                     
+                    $("input[name=password]").addClass("is-invalid");
+                    // $("input[name=password]").removeClass("is-valid");
+                    if($("input[name=password]").next("span").length == 0){
+                        $("input[name=password]").after(
+                            '<span class="text-danger">'+err_msg+'</span>'
+                        );
+                    }else{
+                        $("input[name=password").next().remove();
+                        $("input[name=password]").after(
+                            '<span class="text-danger">'+err_msg+'</span>'
+                        );
+                    }
+                }else{
+                    $("input[name=password]").addClass("is-valid");
+                    // $("input[name=password]").removeClass("is-invalid");
+                    $("input[name=password]").attr("disabled");
+                    $("input[name=password").next().remove();
+                    if($("input[name=password]").prev("span").length == 0){
+                        $("input[name=password]").prev().html('<span class="text-success">'+data.success+'</span>');
+                        $("#set-newpassword-form").trigger('reset');
+                    }
+                }
+            },
+            error:function(data){
+                console.log(data)
+            }
+        });
+    });
+});
+/**
+ * 
+ */

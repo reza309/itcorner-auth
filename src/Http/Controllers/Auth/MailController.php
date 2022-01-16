@@ -24,7 +24,12 @@ class MailController extends Controller
             Route::route('sendmail');
         }
         else{
-            return view('auth.get-email');
+            if(file_exists(resource_path('views/auth/get-email.blade.php'))){
+                return view('auth.get-email');
+            }else{
+                return view('auth::get-email');
+            }
+            
         }
     }
     // its sending the mail with body title
@@ -56,7 +61,12 @@ class MailController extends Controller
                     'success'=>true,
                     'message'=>'Thank you for helping us and we know that its you. Now, you are secured.'
                 ];
-                return view('auth.verify-success',['message'=>$message]);
+                if(file_exists(resource_path('views/auth/verify-success.blade.php'))){
+                    return view('auth.verify-success',['message'=>$message]);
+                }else{
+                    return view('auth::verify-success',['message'=>$message]);
+                }
+                
             }
             else{
                 Session::forget('verifyEmail');
@@ -64,7 +74,12 @@ class MailController extends Controller
                     'success'=>false,
                     'message'=>'Sorry! verification failed. Please try again later'
                 ];
-                return view('auth.verify-success',['message'=>$message]);
+                if(file_exists(resource_path('views/auth/verify-success.blade.php'))){
+                    return view('auth.verify-success',['message'=>$message]);
+                }else{
+                    return view('auth::verify-success',['message'=>$message]);
+                }
+                
             }
             
         }
@@ -74,13 +89,23 @@ class MailController extends Controller
                 'success'=>false,
                 'message'=>'Sorry! verification failed. Please try again later'
             ];
-            return view('auth.verify-success',['message'=>$message]);
+            if(file_exists(resource_path('views/auth/verify-success.blade.php'))){
+                return view('auth.verify-success',['message'=>$message]);
+            }else{
+                return view('auth::verify-success',['message'=>$message]);
+            }
+            
         }
         
     }
     public function mailSendSuccess()
     {
-        return view('auth.mail-send-success');
+        if(file_exists(resource_path('views/auth/mail-send-success.blade.php'))){
+            return view('auth.mail-send-success');
+        }else{
+            return view('auth::mail-send-success');
+        }
+        
     }
     // its store the verification data
     public function mailVerification(Request $request)

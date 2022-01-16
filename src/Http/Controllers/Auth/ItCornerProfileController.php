@@ -28,7 +28,12 @@ class ItCornerProfileController extends Controller
             'first_name', 'last_name', 'email','images',
             'phone','line_1','line_2','state','city'
         ]);
-        return view('auth.profile',["user"=>$user]);
+        if(file_exists(resource_path('views/auth/profile.blade.php'))){
+            return view('auth.profile',["user"=>$user]);
+        }else{
+            return view('auth::profile',["user"=>$user]);
+        }
+        
     }
     public function profileStore(Request $request)
     {

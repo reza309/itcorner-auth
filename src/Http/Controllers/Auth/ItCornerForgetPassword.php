@@ -21,7 +21,13 @@ class ItCornerForgetPassword extends Controller
     // forget password get mail view
     public function sendLinkView()
     {
-        return view('auth.forget-password-mail');
+        if(file_exists(resource_path('views/auth/forget-password-mail.blade.php')))
+        {
+            return view('auth.forget-password-mail');
+        }else{
+            return view('auth::forget-password-mail');
+        }
+        
     }
     public function createMail()
     {
@@ -39,6 +45,7 @@ class ItCornerForgetPassword extends Controller
         Mail::to($this->forgetMail)->send(new VerificationMail($details));
         return true;
     }
+    /**submit mail with forget link */
     public function sendLink(Request $request)
     {
         $this->forgetMail = $request->email;
@@ -53,8 +60,6 @@ class ItCornerForgetPassword extends Controller
             return Response::json(['failed'=>$validator->errors()]);
         }
         else{
-            // $check = $this->createMail();
-            // return response::json($check);
             if($this->createMail())
             {
                 return Response::json(['success'=>'We send a mail. Please check yur email and follow the instruction']);
@@ -68,46 +73,35 @@ class ItCornerForgetPassword extends Controller
     // forget password data insersion
     public function forgetPasswordConfirm($id)
     {
-        if(Session::get('forgetLink') ==$id)
+
+        if(file_exists(resource_path('views/auth/forget-password.blade.php')))
         {
             return view('auth.forget-password');
-        }
-        else{
-            Session::forget('verifyEmail');
-            $message = [
-                'success'=>false,
-                'message'=>'Sorry! You entere with an invalid link. Please try again later'
-            ];
-            return view('auth.verify-success',['message'=>$message]);
+        }else{
+            return view('auth::forget-password');
         }
     }
-    public function saveNewPassword(Request $request,$id)
+    public function saveNewPassword(Request $request)
     {
         $email = Session::get('forgetMail');
-        if(Session::get('forgetLink') ==$id)
-        {
-            $validationRules = [
-                'password' => 'required|min:6|max:50|confirmed',
-            ];
-            $validator = Validator::make($request->all(), $validationRules);
-            if($validator->fails()){
-                return Response::json(['failed'=>$validator->errors()]);
+        // return response::json(['failed'=>$id]);
+        $validationRules = [
+            'password' => 'required|min:6|max:50|confirmed',
+        ];
+        $validator = Validator::make($request->all(), $validationRules);
+        if($validator->fails()){
+            return Response::json(['failed'=>$validator->errors()]);
+        }else{
+            if(User::where('email',$email)->update(['password'=>Hash::make($request->password),'updated_at'=>Carbon::now()]))
+            {
+                Session::forget('forgetMail');
+                Session::forget('forgetLink');
+                return Response::json(['success'=>"You successfully set a new password, "]);
             }else{
-                if(User::where('email',$email)->update(['password'=>Hash::make($request->password),'updated_at'=>Carbon::now()]))
-                {
-                    return Response::json(['success'=>'You successfully set a new password']);
-                }else{
-                    return Response::json(['success'=>'Sorry! somthing went wrong, Please try again later.']);
-                }
+                Session::forget('forgetMail');
+                Session::forget('forgetLink');
+                return Response::json(['failed'=>'Sorry! somthing went wrong, Please try again later.']);
             }
-        }
-        else{
-            Session::forget('verifyEmail');
-            $message = [
-                'success'=>false,
-                'message'=>'Sorry! You entere with an invalid link. Please try again later'
-            ];
-            return view('auth.verify-success',['message'=>$message]);
         }
     }
 }

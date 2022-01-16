@@ -17,12 +17,14 @@
                 @endif
                 <form action="{{route('mail-verify')}}" method="post">
                     @csrf
-                    <div class="mb-3">
+                    <div class="mb-3 auth-spiiner-container">
                         <label for="email" class="form-label">Email</label>
+                        <div class="auth-spinner"></div>
                         <input type="email" name="email" id="email" class="form-control">
                     </div>
-                    <div class="mb-3">
+                    <div class="mb-3 auth-spinner-container">
                         <input type="submit" value="Verif Email" class="btn btn-primary float-end">
+                        
                         <div class="clearfix"></div>
                     </div>
                 </form>

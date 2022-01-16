@@ -21,7 +21,13 @@ class ItCornerAuthController extends Controller
     // login view function
     public function loginView(Request $request)
     {
-        return view('auth::login');
+        if(file_exists(resource_path('views/auth/login.blade.php')))
+        {
+            return view('auth.login');
+        }else{
+            return view('auth::login');
+        }
+        
     }
     // login function with ajax
     public function login(Request $request)
@@ -85,7 +91,12 @@ class ItCornerAuthController extends Controller
     // user registration view
     public function registerView()
     {
-        return view('auth::register');
+        if(file_exists(resource_path('views/auth/register.blade.php'))){
+            return view('auth.register');
+        }else{
+            return view('auth::register');
+        }
+        
     }
     public function dashboard(Request $request)
     {
@@ -95,7 +106,11 @@ class ItCornerAuthController extends Controller
             'first_name', 'last_name', 'email','images',
             'phone','line_1','line_2','state','city'
         ]);
-        return view('auth.dashboard',["user"=>$user]);
+        if(file_exists(resource_path('views/auth/dashboard.blade.php'))){
+            return view('auth.dashboard',["user"=>$user]);
+        }else{
+            return view('auth::dashboard',["user"=>$user]);
+        }
     }
     // User Registration with ajax
     public function register(Request $request)
