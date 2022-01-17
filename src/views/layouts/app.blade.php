@@ -25,7 +25,7 @@
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
         @if(Route::has('login'))
-            @if(!Session::has('loginId'))
+            @if(!Session::has('loginId') && Cookie::has('remember_me')==null)
             <li class="nav-item">
             <a class="nav-link" href="{{route('login')}}">Login</a>
             </li>
@@ -36,7 +36,7 @@
                 @endif
             @endif
         @endif
-        @if(Session::has('loginId'))
+        @if(Session::has('loginId') || Cookie::has('remember_me'))
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="{{route('dashboard')}}" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
            My Account

@@ -2,9 +2,10 @@
 
 namespace Itcorner\Auth\Middleware;
 
-use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Session;
+use Closure;
 class ItCornerAuthLoggedIn
 {
     /**
@@ -16,7 +17,7 @@ class ItCornerAuthLoggedIn
      */
     public function handle(Request $request, Closure $next)
     {
-        if(Session::has('loginId') && ((url('login')==$request->url()) || (url('register')==$request->url())))
+        if((Session::has('loginId') || Cookie::has('remember_me')) && ((url('login')==$request->url()) || (url('register')==$request->url())))
         {
             return redirect()->back();
         }

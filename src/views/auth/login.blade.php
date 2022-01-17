@@ -23,7 +23,7 @@
                     </div>
                     <div class="mb-3">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="remember-me">
+                            <input class="form-check-input" type="checkbox" value="{{csrf_token()}}" id="remember-me" name="remember_me">
                             <label class="form-check-label" for="remember-me">
                                 Remember Me &quest;
                             </label>

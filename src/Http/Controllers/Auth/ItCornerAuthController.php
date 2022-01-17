@@ -12,6 +12,8 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Redirect;
 use ItCorner\Auth\Routes\ItAuth;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cookie;
+
 use Hash;
 use Session;
 
@@ -45,6 +47,11 @@ class ItCornerAuthController extends Controller
             ];
         }
 
+        if($request->input('remember_me') != null){
+            User::where('email',$request->input('email'))->update(['remember_token'=>$request->input('remember_me')]);
+            Cookie::queue('remember_me', $request->input('remember_me'), 1440);
+            Cookie::queue('login', $request->input('email'), 1440);
+        }
         $user = User::where('email', $request->input('email'))->first();
         $itauth = new ItAuth();
         $itauth->route($this->auth);
@@ -82,9 +89,18 @@ class ItCornerAuthController extends Controller
     // logout function
     public function logout()
     {
-        if(Session::has('loginId'))
+        if(Session::has('loginId') && Cookie::has('remember_me'))
         {
             Session::pull('loginId');
+            Cookie::queue(Cookie::forget('remember_me'));
+            Cookie::queue(Cookie::forget('login'));
+            return redirect('login');
+        }elseif(Session::has('loginId')){
+            Session::pull('loginId');
+            return redirect('login');
+        }elseif(Cookie::has('remember_me')){
+            Cookie::queue(Cookie::forget('login'));
+            Cookie::queue(Cookie::forget('remember_me'));
             return redirect('login');
         }
     }
@@ -100,8 +116,15 @@ class ItCornerAuthController extends Controller
     }
     public function dashboard(Request $request)
     {
+        $loginId = $email="";
+        if(Session::has('loginId')){
+            $loginId = $request->session()->get('loginId');
+        }else{
+            $email = Cookie::get('login');
+        }
         $user = User::leftJoin('user_profiles','users.id','=','user_profiles.user_id')
-        ->where('users.id', $request->session()->get('loginId'))
+        ->where('users.id', $loginId)
+        ->orWhere('email',$email)
         ->get([
             'first_name', 'last_name', 'email','images',
             'phone','line_1','line_2','state','city'

@@ -2,9 +2,10 @@
 
 namespace ItCorner\Auth\Middleware;
 
-use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Session;
+use Closure;
 class ItCornerAthenticate
 {
     /**
@@ -16,7 +17,7 @@ class ItCornerAthenticate
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Session()->has('loginId'))
+        if(!Session()->has('loginId') && (Cookie::get('remember_me') == null))
         {
             return redirect('login')->with('fail','You hav to login first');
         }
